@@ -1,24 +1,63 @@
 import { JSDOM } from 'jsdom';
 
+const getIds = (list) => {
+  const arr = [];
+  list.forEach((item) => {
+    const obj = {
+      id: item.getAttribute('title').replace(' ', '_'),
+    };
+    arr.push(obj);
+  });
+
+  return arr;
+};
+
 export default (data) => {
   const { document } = (new JSDOM(data)).window;
-  const tables = document.querySelectorAll('table');
+  const output = [];
 
-  const sampleObj = {};
+  const rows = document.querySelectorAll('tr');
 
-  const titles = tables[0].querySelectorAll('th');
-  titles.forEach((title) => {
-    let parsedTitle = title.innerHTML.trim();
-    parsedTitle = parsedTitle[0].toLowerCase()
-      + parsedTitle.substring(1, parsedTitle.length);
-    parsedTitle = parsedTitle.split(' ').join('');
-    sampleObj[parsedTitle] = {};
+  /**
+   * Find all table rows.
+   */
+  rows.forEach((row) => {
+    const columns = row.querySelectorAll('td');
+
+    /**
+     * If the columns are not td (aka th row), skip.
+     */
+    if (columns.length > 0) {
+      const gungeoneer = {};
+
+      /**
+       * Cycle through each row's column.
+       */
+      columns.forEach((column, index) => {
+        /** What to do in the gungeoneer title column. */
+        if (index === 0) {
+          const item = column.querySelector('[title]');
+          gungeoneer.name = item.getAttribute('title');
+          gungeoneer.href = item.getAttribute('href');
+          gungeoneer.id = gungeoneer.name.replace(' ', '_');
+          gungeoneer.image = item.querySelector('img').getAttribute('src');
+
+        /** What to do in the gungeoneer starting weapons column. */
+        } else if (index === 1) {
+          const weapons = column.querySelectorAll('[title]');
+          gungeoneer.weapons = getIds(weapons);
+
+          /** What to do in the gungeoneer starting items column. */
+        } else if (index === 2) {
+          const items = column.querySelectorAll('[title]');
+          gungeoneer.items = getIds(items);
+        }
+      });
+
+      /** Add to output. */
+      output.push(gungeoneer);
+    }
   });
 
-
-
-  tables.forEach((table) => {
-    const rows = table.querySelectorAll('tr');
-    
-  });
+  return output;
 };

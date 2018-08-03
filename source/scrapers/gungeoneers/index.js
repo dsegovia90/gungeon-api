@@ -27,6 +27,8 @@ fs.readFile(fileUrl, 'utf8', (fileErr, fileData) => {
       });
   } else {
     console.log('File already exists, using that...');
-    parseDoc(fileData);
+    const gungeoneersJson = parseDoc(fileData);
+
+    // @TODO => Do something with the gungeoneerJson.
   }
 });
