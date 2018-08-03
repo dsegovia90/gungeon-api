@@ -12,5 +12,6 @@ const fileUrl = path.join(__dirname, fileName);
 const wikiUrl = 'https://enterthegungeon.gamepedia.com/Gungeoneers';
 
 getFile(fileName, fileUrl, wikiUrl).then((html) => {
-  console.log(parseGungeoneers(html));
+  // @TODO do something with this json object of the gungeoneers
+  parseGungeoneers(html);
 });

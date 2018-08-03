@@ -8,7 +8,7 @@ export default (data) => {
   const rows = document.querySelectorAll('tr');
 
   /**
-   * Find all table rows.
+   * Cycle all table rows.
    */
   rows.forEach((row) => {
     const columns = row.querySelectorAll('td');
