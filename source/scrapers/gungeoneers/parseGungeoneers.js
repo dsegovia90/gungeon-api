@@ -1,16 +1,5 @@
 import { JSDOM } from 'jsdom';
-
-const getIds = (list) => {
-  const arr = [];
-  list.forEach((item) => {
-    const obj = {
-      id: item.getAttribute('title').replace(' ', '_'),
-    };
-    arr.push(obj);
-  });
-
-  return arr;
-};
+import getIds from '../utils/getIds';
 
 export default (data) => {
   const { document } = (new JSDOM(data)).window;

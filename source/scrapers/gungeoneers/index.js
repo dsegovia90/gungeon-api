@@ -3,32 +3,14 @@
  * https://enterthegungeon.gamepedia.com/Gungeoneers
  */
 
-import fetch from 'node-fetch';
-import fs from 'fs';
 import path from 'path';
-import parseDoc from './parseDoc';
+import getFile from '../utils/getFile';
+import parseGungeoneers from './parseGungeoneers';
 
-const url = 'https://enterthegungeon.gamepedia.com/Gungeoneers';
-const fileUrl = path.join(__dirname, 'gungeoneers.html');
+const fileName = 'gungeoneers.html';
+const fileUrl = path.join(__dirname, fileName);
+const wikiUrl = 'https://enterthegungeon.gamepedia.com/Gungeoneers';
 
-fs.readFile(fileUrl, 'utf8', (fileErr, fileData) => {
-  if (fileErr) {
-    console.log('File does not exits...');
-    fetch(url)
-      .then(res => res.text())
-      .then((data) => {
-        console.log(data);
-        fs.writeFile(fileUrl, data, (err) => {
-          if (err) {
-            return console.log(err);
-          }
-          return console.log('Downloaded gungeoneers...');
-        });
-      });
-  } else {
-    console.log('File already exists, using that...');
-    const gungeoneersJson = parseDoc(fileData);
-
-    // @TODO => Do something with the gungeoneerJson.
-  }
+getFile(fileName, fileUrl, wikiUrl).then((html) => {
+  console.log(parseGungeoneers(html));
 });
