@@ -29,7 +29,7 @@ export default (data) => {
           gungeoneer.name = item.getAttribute('title');
           gungeoneer.href = item.getAttribute('href');
           gungeoneer.id = gungeoneer.name.replace(' ', '_');
-          gungeoneer.image = item.querySelector('img').getAttribute('src');
+          gungeoneer.icon = item.querySelector('img').getAttribute('src');
 
         /** What to do in the gungeoneer starting weapons column. */
         } else if (index === 1) {
