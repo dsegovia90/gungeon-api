@@ -58,5 +58,6 @@ export default (data) => {
 
     output.push(weapon);
   });
-  console.log(output);
+
+  return output;
 };

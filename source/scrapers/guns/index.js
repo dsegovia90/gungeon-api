@@ -4,13 +4,14 @@
  */
 
 import path from 'path';
-import getFile from '../utils/getFile';
+import getHtmlFile from '../utils/getHtmlFile';
 import parseGuns from './parseGuns';
 
 const fileName = 'guns.html';
 const fileUrl = path.join(__dirname, fileName);
 const wikiUrl = 'https://enterthegungeon.gamepedia.com/Guns';
 
-getFile(fileName, fileUrl, wikiUrl).then((html) => {
-  parseGuns(html);
+getHtmlFile(fileName, fileUrl, wikiUrl).then((html) => {
+  const parsedGuns = parseGuns(html);
+
 });
