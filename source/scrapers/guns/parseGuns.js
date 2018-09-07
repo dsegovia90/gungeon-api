@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import toCamelCase from '../utils/toCamelCase';
 
 export default (data) => {
   const { document } = (new JSDOM(data)).window;
@@ -7,9 +8,9 @@ export default (data) => {
   const titles = [];
   document.querySelectorAll('th').forEach((td) => {
     if (td.querySelector('[title]')) {
-      titles.push(td.querySelector('[title]').innerHTML.trim());
+      titles.push(toCamelCase(td.querySelector('[title]').innerHTML.trim()));
     } else {
-      titles.push(td.innerHTML.trim());
+      titles.push(toCamelCase(td.innerHTML.trim()));
     }
   });
 
@@ -27,14 +28,19 @@ export default (data) => {
       if (index === 0) {
         const img = column.querySelector('img');
         weapon.icon = {};
-        weapon.icon['1x'] = img.getAttribute('src');
+        weapon.icon.x1 = img.getAttribute('src');
 
         let srcset = img.getAttribute('srcset');
         if (srcset) {
           srcset = srcset.split(', ');
           srcset.forEach((singleSrcset) => {
             const splittedSrcset = singleSrcset.split(' ');
-            const srcSize = splittedSrcset[1];
+            let srcSize = splittedSrcset[1];
+            if (srcSize === '1.5x') {
+              srcSize = 'x1.5';
+            } else if (srcSize === '2x') {
+              srcSize = 'x2';
+            }
             const srcUrl = splittedSrcset[0];
             weapon.icon[srcSize] = srcUrl;
           });
