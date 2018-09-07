@@ -52,7 +52,11 @@ export default (data) => {
       } else if (index === 14) {
         // Do nothing for now, this are the notes...
       } else if (!column.querySelector('img')) {
-        weapon[titles[index]] = column.innerHTML.trim();
+        if (parseFloat(column.innerHTML.trim())) {
+          weapon[titles[index]] = parseFloat(column.innerHTML.trim());
+        } else {
+          weapon[titles[index]] = column.innerHTML.trim();
+        }
       } else if (column.querySelector('img')) {
         let alt = column.querySelector('img').getAttribute('alt').trim();
         if (alt.includes('Item.png')) alt = alt.substring(0, 1);
